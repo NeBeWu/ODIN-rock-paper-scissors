@@ -1,10 +1,53 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Page Title</title>
+    <title>Rock-Paper-Scissors</title>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script src="scripts/sript.js" defer></script>
+    <script
+      src="https://kit.fontawesome.com/a359168c40.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
-    <script src="/scripts/sript.js"></script>
+    <header>
+      <h1 id="title">Rock-Paper-Scissors Showdown!</h1>
+      <p id="subTitle">
+        A human versus machine contest to decide which one deserves the title of
+        best player in the world.
+      </p>
+    </header>
+    <main>
+      <div id="scoreboard">
+        <h2 id="scoreTitle">Score</h2>
+        <div class="scores">
+          <div class="score">
+            <p id="playerScore">Player: 0</p>
+          </div>
+          <div class="score">
+            <p id="computerScore">Computer: 0</p>
+          </div>
+        </div>
+      </div>
+      <div class="buttons">
+        <button id="rockButton">
+          <i class="far fa-hand-rock"></i>
+        </button>
+        <button id="paperButton">
+          <i class="far fa-hand-paper"></i>
+        </button>
+        <button id="scissorsButton">
+          <i class="far fa-hand-scissors"></i>
+        </button>
+      </div>
+    </main>
+    <footer>
+      <p>NeBeWu</p>
+      <a href="https://github.com/nebewu" target="_blank">
+        <i class="fab fa-github"></i
+      ></a>
+    </footer>
   </body>
 </html>
