@@ -1,8 +1,45 @@
-function computerplay() {
-  //Choose a random integer between 0 and 2.
+//Create player and computer scores
+let playerScore = 0;
+let computerScore = 0;
+
+//Adds a response to button click, initializing a round
+const buttons = document.querySelectorAll('button');
+
+buttons.forEach((button) => {
+  button.addEventListener('click', (e) => {
+  
+
+    let roundPoint = playRound(e);
+
+    switch (roundPoint) {
+      case 1:
+        playerScore++;
+        break;
+      case -1:
+        computerScore++;
+        break;
+    }
+
+    changeScore(playerScore, computerScore);
+
+    if (playerScore >= 5) {
+      window.alert(
+        'Congratulations, you won!\n\n If you want to play again, please refresh the page.'
+      );
+    } else if (computerScore >= 5) {
+      window.alert(
+        'Too bad, you lost!\n\n If you want to play again, please refresh the page.'
+      );
+    }
+  });
+});
+
+//Outputs randomly a rock, paper or scissors string; simulating the computer play
+function computerPlay() {
+  //Chooses a random integer between 0 and 2.
   let choiceNumber = Math.floor(Math.random() * 3);
 
-  //Assign to each integer between 0 and 2 a string for the Rock Paper Scissors game
+  //Outputs to each integer between 0 and 2 a rock, paper or scissors string
   switch (choiceNumber) {
     case 0:
       return 'Rock';
@@ -13,80 +50,67 @@ function computerplay() {
   }
 }
 
-function playerPlay() {
-  //Prompt player for input
-  let playerChoice = window.prompt('Rock, Paper or Scissors?');
+//Converts a button click event to the corresponding rock, paper or scissors string
+function playerPlay(e) {
+  //Obtains the id of the clicked button
+  let playerChoice = e.currentTarget.id;
 
-  //Check if player input complies with the game options. If it does not, prompt player a new input
-  while (playerChoice.match(/^(rock|paper|scissors)$/i) === null) {
-    console.log('You did not enter a valid input');
-    playerChoice = window.prompt('Rock, Paper or Scissors?');
+  //Outputs to each button id a rock, paper or scissors string
+  switch (playerChoice) {
+    case 'rockButton':
+      return 'Rock';
+    case 'paperButton':
+      return 'Paper';
+    case 'scissorsButton':
+      return 'Scissors';
   }
-
-  //Capitalize the input string
-  playerChoice =
-    playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1).toLowerCase();
-
-  //Return player choice
-  return playerChoice;
 }
 
-function playRound(playerSelection, computerSelection) {
-  //Assign a number to the player and computer choices to facilitate the checking of the winner
+//Displays the results
+function displayResult(message) {
+  const display = document.querySelector('#results');
+
+  const content = document.createElement('p');
+
+  content.textContent = message;
+
+  display.prepend(content);
+}
+
+//Changes the score
+function changeScore(playerPoints, computerPoints) {
+  const playerScore = document.getElementById('playerScore');
+  const computerScore = document.getElementById('computerScore');
+
+  playerScore.textContent = `Player: ${playerPoints}`;
+  computerScore.textContent = `Computer: ${computerPoints}`;
+
+  return;
+}
+
+//Plays a round of the rock-paper-scissors game
+function playRound(e) {
+  //Collects the player and computer plays
+  let playerSelection = playerPlay(e);
+  let computerSelection = computerPlay();
+
+  //Assigns a number to the player and computer choices to facilitate checking result
   let checkNumber = playerSelection.length - computerSelection.length;
 
-  //Check the winner or draw
+  //Checks the winner or draw
   switch (checkNumber) {
     case -4:
     case 1:
     case 3:
+      displayResult(`You Win! ${playerSelection} beats ${computerSelection}`);
       return 1;
     case -3:
     case -1:
     case 4:
+      displayResult(`You Lose! ${computerSelection} beats ${playerSelection}`);
       return -1;
     default:
+      displayResult(`Draw! Both chose ${playerSelection}`);
       return 0;
   }
 }
-
-function game() {
-  //Create player score
-  let playerScore = 0;
-
-  //Play five rounds
-  for (let round = 1; round < 6; round++) {
-    //Take player input
-    let playerSelection = playerPlay();
-    //Take computer input
-    let computerSelection = computerplay();
-
-    //Compute the result of the round, add/subtract point from score and show round winner
-    switch (playRound(playerSelection, computerSelection)) {
-      case 1:
-        playerScore++;
-        console.log(`You Win! ${playerSelection} beats ${computerSelection}`);
-        break;
-      case -1:
-        playerScore--;
-        console.log(`You Lose! ${computerSelection} beats ${playerSelection}`);
-        break;
-      case 0:
-        console.log(`Draw! Both chose ${playerSelection}`);
-        break;
-      default:
-        console.log('Switch "playRound" bug!');
-    }
-  }
-
-  //Display the player final score
-  if (playerScore > 0) {
-    console.log(`Your score was ${playerScore}. Congratulations, you won!`);
-  } else if (playerScore < 0) {
-    console.log(`Your score was ${playerScore}. Too bad, you lost!`);
-  } else {
-    console.log(`Your score was ${playerScore}. Well, it was a draw!`);
-  }
-}
-
-game();
