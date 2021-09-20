@@ -1,0 +1,183 @@
+:root {
+  --color1: #f0f7d4;
+  --color2: #b2d732;
+  --color3: #4424d6;
+  --color4: #fc600a;
+  --color5: #110934;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 4vw;
+}
+
+/********** Body **********/
+body {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--color1);
+  color: var(--color5);
+  font-family: 'Source Code Pro', monospace;
+  line-height: 1.5;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+/********** Header **********/
+header {
+  width: 100%;
+  background-color: var(--color3);
+  border-bottom: 3px solid var(--color5);
+  flex-grow: 0;
+}
+
+#title {
+  color: var(--color2);
+  font-size: 1.8rem;
+}
+
+#subTitle {
+  color: var(--color4);
+  font-size: 0.8rem;
+}
+
+/********** Main **********/
+main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/********** Scoreboard **********/
+#scoreboard {
+  flex-grow: 0;
+}
+
+#scoreTitle {
+  margin: 3vh 0px;
+  font-size: 2rem;
+}
+
+.scores {
+  margin: 3vh 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.score {
+  font-size: 1.5rem;
+}
+
+/********** Buttons **********/
+div.buttons {
+  flex-grow: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+div.buttons button {
+  padding: 5vw;
+  background-color: var(--color1);
+  border: solid 0.4rem var(--color1);
+  border-radius: 1rem;
+}
+
+div.buttons button:hover {
+  border-color: var(--color4);
+  cursor: pointer;
+}
+
+div.buttons button:active {
+  background-color: var(--color4);
+  color: var(--color1);
+}
+
+.far {
+  font-size: 3rem;
+  background-color: var(--color1);
+  color: var(--color4);
+}
+
+div.buttons button:active .far {
+  background-color: var(--color4);
+  color: var(--color1);
+}
+
+.fa-hand-rock {
+  transform: rotate(90deg);
+}
+
+/********** Results **********/
+#results {
+  margin: 3vh 0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+/********** Footer **********/
+footer {
+  width: 100%;
+  background-color: var(--color5);
+  color: var(--color2);
+  font-size: 1.2rem;
+  flex-grow: 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color1);
+}
+
+/* Mobile Landscape */
+@media only screen and (orientation: Landscape) and (max-height: 599px) {
+  /********** Root **********/
+  html {
+    font-size: 2.4vw;
+  }
+
+  /********** Body **********/
+  body {
+    height: 100%;
+  }
+
+  /********** Header **********/
+
+  /********** Main **********/
+
+  /********** Footer **********/
+}
+
+/* Tablet and Computer */
+@media only screen and (min-width: 600px) and (min-height: 600px) {
+  /********** Root **********/
+  html {
+    font-size: 24px;
+  }
+
+  /********** Body **********/
+  body {
+    align-items: center;
+  }
+
+  /********** Header **********/
+
+  /********** Main **********/
+  main {
+    width: 600px;
+  }
+
+  div.buttons button {
+    padding: 30px;
+  }
+
+  /********** Footer **********/
+}
