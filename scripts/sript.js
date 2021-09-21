@@ -1,61 +1,49 @@
-//Create player and computer scores
+//Initializes players scores and winner
 let playerScore = 0;
 let computerScore = 0;
 
-//Adds a response to button click, initializing a round
+let winner = '';
+
+//Adds a response to button click, playing a round, updating the
+//score and checking if we have a winner
 const buttons = document.querySelectorAll('button');
 
 buttons.forEach((button) => {
   button.addEventListener('click', (e) => {
-  
+    //Play a round on button click event
+    let roundResult = playRound(e);
 
-    let roundPoint = playRound(e);
+    //Update "virtual" and "visual" scores
+    updateScore(roundResult);
 
-    switch (roundPoint) {
-      case 1:
-        playerScore++;
-        break;
-      case -1:
-        computerScore++;
-        break;
-    }
+    winner = checkWinner();
 
-    changeScore(playerScore, computerScore);
-
-    if (playerScore >= 5) {
-      window.alert(
-        'Congratulations, you won!\n\n If you want to play again, please refresh the page.'
-      );
-    } else if (computerScore >= 5) {
-      window.alert(
-        'Too bad, you lost!\n\n If you want to play again, please refresh the page.'
-      );
+    if (winner) {
+      endGame(winner);
     }
   });
 });
 
-//Outputs randomly a rock, paper or scissors string; simulating the computer play
-function computerPlay() {
-  //Chooses a random integer between 0 and 2.
-  let choiceNumber = Math.floor(Math.random() * 3);
+//Plays a round of the rock-paper-scissors game and returns
+//the result
+function playRound(e) {
+  //Collect the player and computer plays
+  let playerSelection = playerPlay(e);
+  let computerSelection = computerPlay();
 
-  //Outputs to each integer between 0 and 2 a rock, paper or scissors string
-  switch (choiceNumber) {
-    case 0:
-      return 'Rock';
-    case 1:
-      return 'Paper';
-    case 2:
-      return 'Scissors';
-  }
+  //Check the result
+  let roundResult = checkResult(playerSelection, computerSelection);
+
+  //Display the result
+  displayResult(roundResult, playerSelection, computerSelection);
+
+  return roundResult;
 }
 
-//Converts a button click event to the corresponding rock, paper or scissors string
+//Converts button click to rock, paper or scissors string
 function playerPlay(e) {
-  //Obtains the id of the clicked button
   let playerChoice = e.currentTarget.id;
 
-  //Outputs to each button id a rock, paper or scissors string
   switch (playerChoice) {
     case 'rockButton':
       return 'Rock';
@@ -66,51 +54,108 @@ function playerPlay(e) {
   }
 }
 
-//Displays the results
-function displayResult(message) {
-  const display = document.querySelector('#results');
+//Outputs randomly a rock, paper or scissors string
+function computerPlay() {
+  let computerChoice = Math.floor(Math.random() * 3);
 
-  const content = document.createElement('p');
-
-  content.textContent = message;
-
-  display.prepend(content);
+  switch (computerChoice) {
+    case 0:
+      return 'Rock';
+    case 1:
+      return 'Paper';
+    case 2:
+      return 'Scissors';
+  }
 }
 
-//Changes the score
-function changeScore(playerPoints, computerPoints) {
-  const playerScore = document.getElementById('playerScore');
-  const computerScore = document.getElementById('computerScore');
-
-  playerScore.textContent = `Player: ${playerPoints}`;
-  computerScore.textContent = `Computer: ${computerPoints}`;
-
-  return;
-}
-
-//Plays a round of the rock-paper-scissors game
-function playRound(e) {
-  //Collects the player and computer plays
-  let playerSelection = playerPlay(e);
-  let computerSelection = computerPlay();
-
-  //Assigns a number to the player and computer choices to facilitate checking result
+//Checks round result by converting players choices to a number
+//which facilitates checking the result
+function checkResult(playerSelection, computerSelection) {
   let checkNumber = playerSelection.length - computerSelection.length;
 
-  //Checks the winner or draw
   switch (checkNumber) {
     case -4:
     case 1:
     case 3:
-      displayResult(`You Win! ${playerSelection} beats ${computerSelection}`);
-      return 1;
+      return 'Player';
     case -3:
     case -1:
     case 4:
-      displayResult(`You Lose! ${computerSelection} beats ${playerSelection}`);
-      return -1;
+      return 'Computer';
     default:
-      displayResult(`Draw! Both chose ${playerSelection}`);
-      return 0;
+      return 'Draw';
   }
+}
+
+//Displays the result of the round by attaching a paragraph
+//in the results div
+function displayResult(roundResult, playerSelection, computerSelection) {
+  const display = document.querySelector('#results');
+  const content = document.createElement('p');
+
+  switch (roundResult) {
+    case 'Player':
+      content.textContent = `You won this round! ${playerSelection} beats ${computerSelection}`;
+      break;
+    case 'Computer':
+      content.textContent = `You lost this round! ${computerSelection} beats ${playerSelection}`;
+      break;
+    case 'Draw':
+      content.textContent = `It was a draw! Both chose ${playerSelection}`;
+      break;
+  }
+
+  display.prepend(content);
+}
+
+//Updates "virtual" and "visual" scores
+function updateScore(roundResult) {
+  const playerVisualScore = document.getElementById('playerScore');
+  const computerVisualScore = document.getElementById('computerScore');
+
+  //Update "virtual" score
+  switch (roundResult) {
+    case 'Player':
+      playerScore++;
+      break;
+    case 'Computer':
+      computerScore++;
+      break;
+    case 'Draw':
+      break;
+  }
+
+  //Update "visual" score
+  playerVisualScore.textContent = `Player: ${playerScore}`;
+  computerVisualScore.textContent = `Computer: ${computerScore}`;
+
+  return;
+}
+
+//Checks if we have a winner already
+function checkWinner() {
+  if (playerScore >= 5) {
+    return 'Player';
+  } else if (computerScore >= 5) {
+    return 'Computer';
+  } else {
+    return '';
+  }
+}
+
+//Ends the game showing a popup with an end message and a
+//restart button
+function endGame(winner) {
+  const popup = document.getElementById('popup_background');
+  const popupText = document.getElementById('popup_text');
+  const popupButton = document.getElementById('popup_button');
+
+  if (winner == 'Player') {
+    popupText.textContent = 'Congratulations, you won the game!';
+  } else {
+    popupText.textContent = 'Too bad, you lost the game!';
+  }
+
+  popupButton.onclick = () => window.location.reload();
+  popup.classList.add('show');
 }

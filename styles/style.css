@@ -97,6 +97,8 @@ div.buttons button:hover {
 div.buttons button:active {
   background-color: var(--color4);
   color: var(--color1);
+  border-color: var(--color4);
+  cursor: pointer;
 }
 
 .far {
@@ -121,6 +123,85 @@ div.buttons button:active .far {
   display: flex;
   flex-direction: column;
   overflow: auto;
+}
+
+/********** Popup **********/
+.popup {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: #110934be;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+}
+
+#popup_window {
+  width: 60vmin;
+  max-width: 600px;
+  height: 40vmin;
+  max-height: 400px;
+  background-color: var(--color3);
+  border: 0.2rem solid var(--color1);
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+#popup_text {
+  color: var(--color2);
+}
+
+#popup_button {
+  padding: 0.6rem;
+  background-color: var(--color3);
+  color: var(--color4);
+  font-size: 1rem;
+  border: 0.2rem solid var(--color3);
+  border-radius: 1rem;
+  align-self: center;
+}
+
+#popup_button:hover {
+  border-color: var(--color4);
+  cursor: pointer;
+}
+
+#popup_button:active {
+  background-color: var(--color4);
+  color: var(--color1);
+  border-color: var(--color4);
+  cursor: pointer;
+}
+
+/* Add this class when games end */
+.show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /********** Footer **********/
